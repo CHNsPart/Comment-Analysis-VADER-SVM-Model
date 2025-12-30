@@ -1,0 +1,19 @@
+{
+  "aspect_weights": {
+    "content clarity": 0.3,
+    "teaching quality": 0.2,
+    "production quality": 0.15,
+    "gratitude": 0.15,
+    "examples": 0.1,
+    "pacing": 0.1
+  },
+  "sentiment_influence": {
+    "Positive": 1.0,
+    "Negative": -1.5,
+    "Neutral": 0.2
+  },
+  "component_weights": {
+    "Aspect_Score": 0.6,
+    "Sentiment_Score": 0.4
+  }
+}
