@@ -444,7 +444,11 @@ class HybridFusionPredictor:
                 },
                 "vader_score": 0.0,
                 "svm_confidence": 0.0,
-                "vader_confidence": 0.0
+                "vader_confidence": 0.0,
+                "fusion_weights": {
+                    "svm": float(self.fusion_weight),
+                    "vader": float(1 - self.fusion_weight)
+                }
             }
         
         # Get VADER score

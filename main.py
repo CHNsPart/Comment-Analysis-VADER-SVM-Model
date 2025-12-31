@@ -9,6 +9,7 @@ from typing import List, Union, Optional, Dict, Tuple
 import uvicorn
 import os
 import re
+import traceback
 from collections import defaultdict
 
 from model_predictor import get_predictor, DEFAULT_MODEL_PATH
@@ -529,8 +530,9 @@ async def predict_sentiment_array(texts: List[str]):
             aspect_score = (probs["Positive"] + probs["Neutral"]) / 2 if probs["Neutral"] > 0 else probs["Positive"]
             overall_aspect += aspect_score
 
-            # Calculate effectiveness score based on vader and svm agreement
-            effectiveness_score = (pred["svm_confidence"] + pred["vader_confidence"]) / 2
+            # Calculate effectiveness score: weighted combination of aspect and sentiment
+            # W_aspect = 60%, W_sentiment = 40%
+            effectiveness_score = (0.6 * aspect_score) + (0.4 * pred["confidence"])
             overall_effectiveness += effectiveness_score
 
         # Calculate averages
@@ -572,6 +574,9 @@ async def predict_sentiment_array(texts: List[str]):
     except HTTPException:
         raise
     except Exception as e:
+        print(f"\n❌ ERROR in /predict/array:")
+        print(f"   Number of texts: {len(texts) if texts else 0}")
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
 
